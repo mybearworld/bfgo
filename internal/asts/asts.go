@@ -104,8 +104,9 @@ func tokensToNodes(tokens []tokenizer.Token) ([]Node, error) {
 			if err != nil {
 				switch err := err.(type) {
 				case LoopEndError:
-					nodes = append(nodes, loopNodes...)
-					i = err.TokenIndex + 1
+					nodes = append(nodes, Loop{Nodes: loopNodes})
+					// the two loop characters need to be skipped, so add two
+					i += err.TokenIndex + 2
 					continue
 				default:
 					return nodes, err
