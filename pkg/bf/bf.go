@@ -9,10 +9,11 @@ import (
 
 func Run(code []byte) error {
 	tokens := tokenizer.Tokenize(code)
-	ast, err := asts.FromTokens(tokens)
+	program, err := asts.FromTokens(tokens)
 	if err != nil {
 		return err
 	}
-	fmt.Println(ast)
+	program.Start()
+	fmt.Println()
 	return nil
 }
