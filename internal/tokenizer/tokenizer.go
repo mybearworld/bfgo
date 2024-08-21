@@ -11,7 +11,7 @@ const (
 	Output
 	LoopBegin
 	LoopEnd
-	Unrecognized
+	unrecognized
 )
 
 func charToToken(char byte) Token {
@@ -33,14 +33,18 @@ func charToToken(char byte) Token {
 	case ']':
 		return LoopEnd
 	default:
-		return Unrecognized
+		return unrecognized
 	}
 }
 
 func Tokenize(code []byte) []Token {
 	tokens := []Token{}
 	for _, char := range code {
-		tokens = append(tokens, charToToken(char))
+		token := charToToken(char)
+		if token == unrecognized {
+			continue
+		}
+		tokens = append(tokens, token)
 	}
 	return tokens
 }

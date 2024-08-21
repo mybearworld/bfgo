@@ -97,8 +97,6 @@ func tokensToNodes(tokens []tokenizer.Token) ([]Node, error) {
 			continue
 		}
 		switch token {
-		case tokenizer.Unrecognized:
-			i++
 		case tokenizer.LoopBegin:
 			loopNodes, err := tokensToNodes(tokens[i+1:])
 			if err != nil {
