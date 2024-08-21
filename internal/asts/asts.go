@@ -12,9 +12,9 @@ type Node interface {
 	Run(tape *Tape, ptr *int)
 }
 
-const maxTapeSize = 300000
+const tapeSize = 300000
 
-type Tape [maxTapeSize]byte
+type Tape [tapeSize]byte
 
 type Program struct {
 	Nodes []Node
@@ -46,7 +46,7 @@ type IncrementPointer struct{}
 
 func (IncrementPointer) Run(tape *Tape, ptr *int) {
 	*ptr++
-	if *ptr > maxTapeSize {
+	if *ptr == tapeSize {
 		*ptr = 0
 	}
 }
@@ -56,7 +56,7 @@ type DecrementPointer struct{}
 func (DecrementPointer) Run(tape *Tape, ptr *int) {
 	*ptr--
 	if *ptr < 0 {
-		*ptr = maxTapeSize
+		*ptr = tapeSize - 1
 	}
 }
 
