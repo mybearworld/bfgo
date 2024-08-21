@@ -1,7 +1,13 @@
 package bf
 
-import "errors"
+import (
+	"fmt"
+
+	"github.com/mybearworld/bfgo/internal/tokenizer"
+)
 
 func Run(code []byte) error {
-	return errors.New("not implemented")
+	tokens := tokenizer.Tokenize(code)
+	fmt.Println(tokens)
+	return nil
 }
