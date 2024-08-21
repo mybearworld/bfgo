@@ -9,7 +9,7 @@ import (
 )
 
 type Node interface {
-	Run(tape *Tape, ptr *int)
+	run(tape *Tape, ptr *int)
 }
 
 const tapeSize = 300000
@@ -21,30 +21,30 @@ type Program struct {
 }
 
 func (program Program) Start() {
-	program.Run(&Tape{0}, new(int))
+	program.run(&Tape{0}, new(int))
 }
 
-func (program Program) Run(tape *Tape, ptr *int) {
+func (program Program) run(tape *Tape, ptr *int) {
 	for _, node := range program.Nodes {
-		node.Run(tape, ptr)
+		node.run(tape, ptr)
 	}
 }
 
 type IncrementCell struct{}
 
-func (IncrementCell) Run(tape *Tape, ptr *int) {
+func (IncrementCell) run(tape *Tape, ptr *int) {
 	tape[*ptr]++
 }
 
 type DecrementCell struct{}
 
-func (DecrementCell) Run(tape *Tape, ptr *int) {
+func (DecrementCell) run(tape *Tape, ptr *int) {
 	tape[*ptr]--
 }
 
 type IncrementPointer struct{}
 
-func (IncrementPointer) Run(tape *Tape, ptr *int) {
+func (IncrementPointer) run(tape *Tape, ptr *int) {
 	*ptr++
 	if *ptr == tapeSize {
 		*ptr = 0
@@ -53,7 +53,7 @@ func (IncrementPointer) Run(tape *Tape, ptr *int) {
 
 type DecrementPointer struct{}
 
-func (DecrementPointer) Run(tape *Tape, ptr *int) {
+func (DecrementPointer) run(tape *Tape, ptr *int) {
 	*ptr--
 	if *ptr < 0 {
 		*ptr = tapeSize - 1
@@ -62,7 +62,7 @@ func (DecrementPointer) Run(tape *Tape, ptr *int) {
 
 type Input struct{}
 
-func (Input) Run(tape *Tape, ptr *int) {
+func (Input) run(tape *Tape, ptr *int) {
 	buf := make([]byte, 1)
 	os.Stdin.Read(buf)
 	tape[*ptr] = buf[0]
@@ -70,7 +70,7 @@ func (Input) Run(tape *Tape, ptr *int) {
 
 type Output struct{}
 
-func (Output) Run(tape *Tape, ptr *int) {
+func (Output) run(tape *Tape, ptr *int) {
 	fmt.Printf("%c", tape[*ptr])
 }
 
@@ -78,10 +78,10 @@ type Loop struct {
 	Nodes []Node
 }
 
-func (loop Loop) Run(tape *Tape, ptr *int) {
+func (loop Loop) run(tape *Tape, ptr *int) {
 	for tape[*ptr] != 0 {
 		for _, node := range loop.Nodes {
-			node.Run(tape, ptr)
+			node.run(tape, ptr)
 		}
 	}
 }
