@@ -7,13 +7,15 @@ import (
 	"github.com/mybearworld/bfgo/internal/tokenizer"
 )
 
-func Run(code []byte) error {
+func Run(code []byte, newLine bool) error {
 	tokens := tokenizer.Tokenize(code)
 	program, err := asts.FromTokens(tokens)
 	if err != nil {
 		return err
 	}
 	program.Start()
-	fmt.Println()
+	if newLine {
+		fmt.Println()
+	}
 	return nil
 }

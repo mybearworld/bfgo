@@ -24,7 +24,7 @@ Run as:
 		if err != nil {
 			errorAndExit(err)
 		}
-		err = bf.Run(content)
+		err = bf.Run(content, !noNewLine)
 		if err != nil {
 			errorAndExit(err)
 		}
@@ -42,4 +42,10 @@ func Execute() {
 		fmt.Fprintf(os.Stderr, "Usage: bfgo run ./file.bf\n")
 		os.Exit(1)
 	}
+}
+
+var noNewLine bool
+
+func init() {
+	rootCmd.Flags().BoolVarP(&noNewLine, "no-new-line", "n", false, "do not print a \\n character after the output")
 }
