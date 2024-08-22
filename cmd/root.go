@@ -17,7 +17,7 @@ var rootCmd = &cobra.Command{
 	Long: `Run BF programs. Written in Go!
 
 Run as:
-  bfgo run ./file.bf`,
+  bfgo ./file.bf`,
 	Run: func(cmd *cobra.Command, args []string) {
 		filename := args[0]
 		content, err := os.ReadFile(filename)
