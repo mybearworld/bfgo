@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/mybearworld/bfgo/pkg/bf"
@@ -17,10 +18,19 @@ var rootCmd = &cobra.Command{
 	Long: `Run BF programs. Written in Go!
 
 Run as:
-  bfgo ./file.bf`,
+  bfgo ./file.bf
+	bfgo -         # From stdin`,
 	Run: func(cmd *cobra.Command, args []string) {
 		filename := args[0]
-		content, err := os.ReadFile(filename)
+		var (
+			content []byte
+			err     error
+		)
+		if filename == "-" {
+			content, err = io.ReadAll(os.Stdin)
+		} else {
+			content, err = os.ReadFile(filename)
+		}
 		if err != nil {
 			errorAndExit(err)
 		}
